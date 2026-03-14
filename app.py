@@ -6,7 +6,9 @@ import logging
 import time
 import re
 from bs4 import BeautifulSoup
-
+import os
+SPORTSRC_KEY = os.getenv("SPORTSRC_KEY")
+BASE_URL_V2 =os.getenv("BASE_URL_V2")
 
 
 app = Flask(__name__)
@@ -15,8 +17,7 @@ CORS(app)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-SPORTSRC_KEY = "224e63bc7a360adec18faab2157e60b2"
-BASE_URL_V2 = "https://api.sportsrc.org/v2/"
+
 HEADERS = {"X-API-KEY": SPORTSRC_KEY}
 
 # -----------------------------

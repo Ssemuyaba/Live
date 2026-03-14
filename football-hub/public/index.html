@@ -3,41 +3,86 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+
+    <!-- Mobile responsiveness -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Theme color -->
     <meta name="theme-color" content="#000000" />
+
+    <!-- Primary SEO -->
+    <title>SwiftBall Live - Watch Live Football & Sports Streams</title>
+
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="Watch live football matches, upcoming games, and sports streams on SwiftBall. Real-time scores, match schedules, and HD live sports streaming."
     />
+
+    <meta
+      name="keywords"
+      content="live football, watch football online, soccer live streams, sports streaming, live matches today, swiftball live"
+    />
+
+    <meta name="author" content="SwiftBall" />
+
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:title" content="SwiftBall Live Sports" />
+    <meta
+      property="og:description"
+      content="Watch live football matches and sports streams online with real-time scores."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://swiftball.vercel.app" />
+    <meta property="og:image" content="%PUBLIC_URL%/logo192.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SwiftBall Live Sports" />
+    <meta
+      name="twitter:description"
+      content="Live football streams, upcoming matches and real-time sports updates."
+    />
+    <meta name="twitter:image" content="%PUBLIC_URL%/logo192.png" />
+
+    <!-- Apple devices -->
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
+
+    <!-- Manifest -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- Structured Data (Helps Google understand sports content) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SportsEvent",
+        "name": "Live Football Matches",
+        "sport": "Soccer",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "location": {
+          "@type": "VirtualLocation",
+          "url": "https://swiftball.vercel.app"
+        },
+        "organizer": {
+          "@type": "Organization",
+          "name": "SwiftBall"
+        }
+      }
+    </script>
+
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
   </head>
+
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+
     <div id="root"></div>
+
     <!--
       This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
       The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
 </html>

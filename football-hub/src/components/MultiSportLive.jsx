@@ -2,6 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "../App.css";
 import Hls from "hls.js";
+import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
+
+
 
 // ------------------------------
 // HLS Player
@@ -69,6 +73,14 @@ function SportSelector({ sports, selectedSport, onSelect }) {
 function MatchCard({ match, matchType, fetchStream }) {
   const isFinished = matchType === "finished";
 
+  const slug = `${match.home_team?.name}-vs-${match.away_team?.name}`
+  .toLowerCase()
+  .replace(/\s+/g, "-");
+   
+  <Link to={`/match/${slug}`}>
+  <button className="watch-btn">Match Page</button>
+</Link> 
+
   const getStatusText = () => {
     if (isFinished) {
       return new Date(match.timestamp).toLocaleString([], {
@@ -132,6 +144,26 @@ function MatchCard({ match, matchType, fetchStream }) {
             Watch Live
           </button>
         )}
+
+{!isFinished && (
+  <Link to={`/match/${slug}`}>
+    <button
+      className="watch-btn"
+      style={{
+        marginLeft: "10px",
+        padding: "4px 10px",
+        borderRadius: "4px",
+        border: "none",
+        cursor: "pointer",
+        backgroundColor: "#ffcc00",
+        color: "#000",
+        fontWeight: "bold",
+      }}
+    >
+      Match Page
+    </button>
+  </Link>
+)}
       </div>
 
       {matchType === "live" && <div className="match-refresh-circle"></div>}
@@ -152,7 +184,7 @@ export default function MultiSportLive() {
   const [matches, setMatches] = useState([]);
   const [, setPrevScores] = useState({});
   const [matchType, setMatchType] = useState("live");
-  const [, setStreamMatchId] = useState(null);
+  const [streamMatchId, setStreamMatchId] = useState(null);
   const [, setStreams] = useState([]);
   const [streamUrl, setStreamUrl] = useState("");
   const [adStreams, setAdStreams] = useState([]);
@@ -219,7 +251,7 @@ useEffect(() => {
   useEffect(() => {
     const fetchSports = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/sports");
+        const res = await axios.get('${process.env.REACT_APP_API_URL}/api/sports');
         if (res.data.success && Array.isArray(res.data.data)) {
           setSports(res.data.data);
           setSelectedSport(res.data.data[0]?.id || "");
@@ -233,9 +265,11 @@ useEffect(() => {
   }, []);
 
   useEffect(() => {
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {}
+    if (window.adsbygoogle) {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {}
+    }
   }, [visibleCount]);
   // Fetch matches
   useEffect(() => {
@@ -247,9 +281,9 @@ useEffect(() => {
 
       try {
         const [liveRes, upcomingRes, finishedRes] = await Promise.all([
-          axios.get(`http://localhost:5000/api/live-matches?sport=${selectedSport}`),
-          axios.get(`http://localhost:5000/api/matches?sport=${selectedSport}&type=upcoming`),
-          axios.get(`http://localhost:5000/api/matches?sport=${selectedSport}&type=finished`),
+          axios.get(`${process.env.REACT_APP_API_URL}/api/live-matches?sport=${selectedSport}`),
+          axios.get(`${process.env.REACT_APP_API_URL}/api/matches?sport=${selectedSport}&type=upcoming`),
+          axios.get(`${process.env.REACT_APP_API_URL}/api/matches?sport=${selectedSport}&type=finished`),
         ]);
 
         const normalize = (matches) =>
@@ -309,7 +343,7 @@ useEffect(() => {
       setStreamUrl("");
       setStreams([]);
       setAdStreams([]);
-      const res = await axios.get(`http://localhost:5000/api/match/${match_id}`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/match/${match_id}`);
       if (res.data.streams && res.data.streams.length > 0) {
         const allStreams = res.data.streams;
         const mainStreams = allStreams.filter(
@@ -352,10 +386,37 @@ useEffect(() => {
     return teamSearch && leagueFilter;
   
   });
+  const activeMatch = matches.find(m => m.match_id === streamMatchId);
 
   return (
     <div style={{ padding: "20px", paddingBottom: "120px" }}>
       {error && <p style={{ color: "red" }}>{error}</p>}
+       
+      <Helmet>
+      <title>
+        {activeMatch
+          ? `${activeMatch.home_team?.name} vs ${activeMatch.away_team?.name} Live Stream | SwiftBall`
+          : "SwiftBall Live - Watch Football & Sports Streams"}
+      </title>
+      <meta
+              name="keywords"
+               content="live football stream, watch football live, soccer streams, sports streaming, live match streaming"
+         />
+
+      <meta property="og:title" content="SwiftBall Live Streams" />
+       <meta property="og:description" content="Watch live football matches and sports streams on SwiftBall." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://swiftball.live" />
+
+      <meta
+        name="description"
+        content={
+          activeMatch
+            ? `Watch ${activeMatch.home_team?.name} vs ${activeMatch.away_team?.name} live stream, scores and match updates on SwiftBall.`
+            : "Watch live football matches, upcoming games and sports streams on SwiftBall."
+        }
+      />
+    </Helmet> 
 
       {loadingStream && <p style={{ color: "#00ff00" }}>Loading stream...</p>}
       {streamUrl && (
