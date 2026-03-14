@@ -182,7 +182,7 @@ export default function MultiSportLive() {
   const [sports, setSports] = useState([]);
   const [selectedSport, setSelectedSport] = useState("");
   const [matches, setMatches] = useState([]);
-  const [, setPrevScores] = useState({});
+  //const [, setPrevScores] = useState({});
   const [matchType, setMatchType] = useState("live");
   const [streamMatchId, setStreamMatchId] = useState(null);
   const [, setStreams] = useState([]);
@@ -193,8 +193,8 @@ export default function MultiSportLive() {
   const [loadingStream, setLoadingStream] = useState(false);
   const [error, setError] = useState("");
   const globalPlayerRef = useRef(null);
-  const matchesCache = useRef({});
-  const cacheTimer = useRef(null);
+  //const matchesCache = useRef({});
+  //const cacheTimer = useRef(null);
   const carouselRef = useRef(null);
   const [selectedCarouselId, setSelectedCarouselId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -251,7 +251,7 @@ useEffect(() => {
   useEffect(() => {
     const fetchSports = async () => {
       try {
-        const res = await axios.get('${process.env.REACT_APP_API_URL}/api/sports');
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/sports`);
         if (res.data.success && Array.isArray(res.data.data)) {
           setSports(res.data.data);
           setSelectedSport(res.data.data[0]?.id || "");
