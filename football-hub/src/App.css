@@ -1,0 +1,561 @@
+/* ----------------------------- */
+/* src/App.css - Fully Optimized */
+/* ----------------------------- */
+
+/* ----------------------------- */
+/* Global App styling */
+/* ----------------------------- */
+.App {
+  text-align: left;
+  font-family: 'Arial', sans-serif;
+  background-color: #1f1f1f;
+  color: #e0e0e0;
+  min-height: 100vh;
+  margin: 0;
+}
+.App main {
+  padding-bottom: 120px; /* same or slightly larger than footer height */
+}
+/* ----------------------------- */
+/* Header styling */
+/* ----------------------------- */
+.App-header {
+  background-color: #1a1a1a;
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: calc(14px + 1vmin);
+  border-bottom: 2px solid #32cd32;
+}
+
+.App-header h1{
+  color: #32cd32;
+  margin: 0;
+  font-weight: bold;
+  text-shadow: 0 0 3px #abd6ab;
+}
+.App-header .app-logo {
+  height: 40px;
+  margin-right: 12px;
+}
+
+/* ----------------------------- */
+/* Main content area */
+/* ----------------------------- */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ----------------------------- */
+/* Buttons (Global, Sport, Toggle) */
+/* ----------------------------- */
+button {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin: 5px;
+  font-weight: bold;
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 255, 0, 0.2);
+}
+
+button:hover {
+  background-color: #32cd32;
+  color: #000;
+  transform: scale(1.05);
+}
+
+/* Selected sport button */
+.active-sport-btn {
+  background-color: #32cd32 !important;
+  color: #000 !important;
+  box-shadow: 0 4px 10px rgba(0, 255, 0, 0.6);
+}
+
+/* Toggle buttons for Live/Upcoming/Finished */
+.toggle-btn {
+  flex: 1;
+  padding: 10px 0;
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #333;
+  color: #e0e0e0;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.toggle-btn:hover {
+  background-color: #32cd32;
+  color: #000;
+}
+
+.toggle-btn.active {
+  background-color: #32cd32;
+  color: #000;
+  box-shadow: 0 4px 10px rgba(0, 255, 0, 0.6);
+}
+
+/* ----------------------------- */
+/* Match card styling */
+/* ----------------------------- */
+.match-card {
+  border: 1px solid #2c2c2c;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 20px;
+  background-color: #1a1a1a;
+  box-shadow: 0 4px 12px rgba(0, 255, 0, 0.1);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  transition: height 0.3s ease, transform 0.2s, box-shadow 0.2s;
+}
+
+.match-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 15px #32cd32;
+}
+
+.match-card h4 {
+  margin: 0 0 12px 0;
+  font-size: 1.2rem;
+  color: #32cd32;
+  text-shadow: 0 0 4px #32cd32;
+}
+
+/* Team row */
+.team-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.team-row img {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+}
+
+/* Score & status */
+.score {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #32cd32;
+  transition: color 0.5s, transform 0.3s;
+}
+
+.score.update {
+  animation: score-flash 0.5s ease-in-out;
+}
+
+@keyframes score-flash {
+  0% { color: #ff0000; transform: scale(1.3); }
+  50% { color: #32cd32; transform: scale(1); }
+  100% { color: #32cd32; transform: scale(1); }
+}
+
+.status {
+  font-size: 0.9rem;
+  color: #b0b0b0;
+}
+
+/* ----------------------------- */
+/* Grid for matches - Fully Responsive */
+/* ----------------------------- */
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  align-items: start;
+}
+
+/* Medium screens */
+@media (max-width: 1024px) {
+  .matches-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 18px;
+  }
+}
+
+/* Small screens */
+@media (max-width: 768px) {
+  .matches-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .team-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  main {
+    padding: 10px;
+  }
+  .top-header-carousel {
+    flex-direction: column;
+  }
+  .carousel-card {
+    min-width: 140px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .matches-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .match-card {
+    padding: 10px;
+  }
+  .team-row img {
+    width: 28px;
+    height: 28px;
+  }
+  .score {
+    font-size: 0.85rem;
+  }
+  .status {
+    font-size: 0.75rem;
+  }
+  .carousel-card {
+    min-width: 120px;
+    padding: 6px;
+  }
+  .carousel-league-name {
+    font-size: 0.65rem;
+  }
+  .team-logo {
+    width: 24px;
+    height: 24px;
+  }
+  .match-time {
+    font-size: 0.7rem;
+  }
+  button,
+  .toggle-btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+  .stream-sources button {
+    padding: 3px 6px;
+    font-size: 0.7rem;
+  }
+  .match-card .stream-container {
+    padding-bottom: 50%;
+  }
+  main {
+    padding: 8px;
+  }
+  .top-header-carousel {
+    gap: 12px;
+  }
+}
+/* ----------------------------- */
+/* Mini Global Player - Responsive */
+/* ----------------------------- */
+@media (max-width: 768px) {
+  .global-player.mini-player {
+    width: 200px;       /* smaller on tablets */
+    height: 112px;      /* maintain 16:9 ratio */
+    bottom: 15px;
+    right: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .global-player.mini-player {
+    width: 150px;       /* tiny on phones */
+    height: 84px;       /* maintain 16:9 ratio */
+    bottom: 10px;
+    right: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-ad {
+    display: none;
+  }
+}
+
+/* ----------------------------- */
+/* Live-dot indicator */
+.live-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #32cd32;
+  margin-right: 6px;
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Refresh circle under live score */
+.match-refresh-circle {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #32cd32;
+  border-top-color: transparent;
+  border-radius: 50%;
+  margin-top: 6px;
+  animation: spin 5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); opacity: 1; }
+  50% { transform: rotate(180deg); opacity: 0.5; }
+  100% { transform: rotate(360deg); opacity: 1; }
+}
+
+/* ----------------------------- */
+/* Header + Carousel layout */
+.top-header-carousel {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+/* Carousel container */
+.carousel-container {
+  flex: 1 1 auto;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 12px;
+  padding: 10px 0;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Carousel card */
+.carousel-card {
+  min-width: 200px;
+  flex-shrink: 0;
+  background-color: #1a1a1a;
+  border: 1px solid #2c2c2c;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carousel-card:hover,
+.carousel-card.active {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #32cd32;
+}
+
+/* Logos */
+.league-logo {
+  height: 20px;
+  margin-bottom: 6px;
+}
+
+.team-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 0 6px;
+}
+
+.carousel-league-name {
+  font-size: 0.75rem;
+  color: #aaa;
+  margin-bottom: 4px;
+}
+
+/* Match time */
+.match-time {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #b0b0b0;
+  text-align: center;
+}
+
+/* Stream container */
+.match-card .stream-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  margin-top: 10px;
+}
+
+.match-card .stream-container iframe,
+.match-card .stream-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Stream sources buttons */
+.stream-sources {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.stream-sources button {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #333;
+  color: #e0e0e0;
+  transition: 0.2s;
+}
+
+.stream-sources button.active-source-btn {
+  background-color: #32cd32;
+  color: #000;
+}
+
+/* ----------------------------- */
+/* Global Player + Corner Ads */
+.corner-ad {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.global-player.mini-player .corner-ad {
+  display: none;
+}
+
+.mini-player .stream-container {
+  padding-top: 0 !important;
+  height: 100% !important;
+}
+
+.global-player {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  background: #000;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.global-player.mini-player {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  height: 168px;
+  z-index: 1000;
+  border: 2px solid #32cd32;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.global-player video,
+.global-player iframe {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Fixed footer for ads (sticky but non-obstructive) */
+.fixed-footer-ad {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #111;
+  border-top: 2px solid #00ff00;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  z-index: 1000;
+  min-height: 100px;
+}
+
+/* Ads containers */
+.fixed-footer-ad .ad-container-left,
+.fixed-footer-ad .ad-container-right {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  max-width: 180px;
+}
+
+/* Info container centered */
+.fixed-footer-ad .info-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: #00ff00;
+  font-size: 0.85rem;
+  max-width: 400px;
+}
+
+/* Add bottom padding to main content equal to footer height */
+.App main {
+  padding-bottom: 120px; /* slightly more than footer height */
+}
+
+/* Responsive: small screens */
+@media (max-width: 768px) {
+  .fixed-footer-ad {
+    flex-direction: column;
+    min-height: auto;
+    padding: 10px 5px;
+  }
+  .fixed-footer-ad .ad-container-left,
+  .fixed-footer-ad .ad-container-right {
+    max-width: 100%;
+    margin: 5px 0;
+  }
+  .fixed-footer-ad .info-container {
+    position: static;
+    transform: none;
+    margin: 5px 0;
+  }
+}
+
+/* Optional: hide on ultra small screens */
+@media (max-width: 360px) {
+  .fixed-footer-ad {
+    display: none;
+  }
+}
