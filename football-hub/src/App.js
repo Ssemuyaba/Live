@@ -43,7 +43,7 @@ function App() {
 
         {/* Header */}
         <header className="App-header">
-          <img src="logo.png" alt="Swift Live Logo" className="app-logo" />
+          <img src="logo.ico" alt="Swift Live Logo" className="app-logo" />
           <h1>Swift Live</h1>
 
           {/* AdSense */}

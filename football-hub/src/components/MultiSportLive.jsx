@@ -251,7 +251,7 @@ useEffect(() => {
   useEffect(() => {
     const fetchSports = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/sports`);
+        const res = await axios.get(`https://swiftball-g958.onrender.com/api/sports`);
         if (res.data.success && Array.isArray(res.data.data)) {
           setSports(res.data.data);
           setSelectedSport(res.data.data[0]?.id || "");
@@ -281,9 +281,9 @@ useEffect(() => {
 
       try {
         const [liveRes, upcomingRes, finishedRes] = await Promise.all([
-          axios.get(`${process.env.REACT_APP_API_URL}/api/live-matches?sport=${selectedSport}`),
-          axios.get(`${process.env.REACT_APP_API_URL}/api/matches?sport=${selectedSport}&type=upcoming`),
-          axios.get(`${process.env.REACT_APP_API_URL}/api/matches?sport=${selectedSport}&type=finished`),
+          axios.get(`https://swiftball-g958.onrender.com/api/live-matches?sport=${selectedSport}`),
+          axios.get(`https://swiftball-g958.onrender.com/api/matches?sport=${selectedSport}&type=upcoming`),
+          axios.get(`https://swiftball-g958.onrender.com/api/matches?sport=${selectedSport}&type=finished`),
         ]);
 
         const normalize = (matches) =>
@@ -343,7 +343,7 @@ useEffect(() => {
       setStreamUrl("");
       setStreams([]);
       setAdStreams([]);
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/match/${match_id}`);
+      const res = await axios.get(`https://swiftball-g958.onrender.com/api/match/${match_id}`);
       if (res.data.streams && res.data.streams.length > 0) {
         const allStreams = res.data.streams;
         const mainStreams = allStreams.filter(
@@ -452,7 +452,6 @@ useEffect(() => {
               src={streamUrl}
               frameBorder="0"
               allow="autoplay; fullscreen"
-              allowFullScreen
               title="Live Stream"
               style={{ width: "100%", height: "100%" }}
             />
@@ -467,7 +466,6 @@ useEffect(() => {
                   title={`Ad ${i + 1}`}
                   frameBorder="0"
                   allow="autoplay; fullscreen"
-                  allowFullScreen
                   style={{ width: 150, height: 100 }}
                 />
               ))}
