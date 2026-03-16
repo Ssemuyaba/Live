@@ -1,4 +1,4 @@
-How thsi now,from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import requests
 from datetime import datetime, timedelta
