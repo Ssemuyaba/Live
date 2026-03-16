@@ -34,7 +34,7 @@ function App() {
             content="Watch live sports streams, scores and match updates on Swift Live."
           />
           <meta property="og:type" content="website" />
-          <meta property="og:image" content="/logo192.png" />
+          <meta property="og:image" content="/logo.ico" />
           <meta property="og:url" content="https://swiftball.live" />
 
           {/* Canonical */}

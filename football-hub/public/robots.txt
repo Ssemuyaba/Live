@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://swiftball.vercel.app/sitemap.xml
+Sitemap: https://live-beta-lemon.vercel.app/sitemap.xml
