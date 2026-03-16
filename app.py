@@ -127,6 +127,9 @@ def sports():
 # -----------------------------
 # 2️⃣ Get live matches (with caching) - fixed append
 # -----------------------------
+# -----------------------------
+# 2️⃣ Get live matches (with caching) - fixed append + filter persistent match
+# -----------------------------
 @app.route("/api/live-matches")
 def live_matches():
     sport = request.args.get("sport", "football")
@@ -165,12 +168,19 @@ def live_matches():
                 "timestamp": match.get("timestamp")
             })
 
-    response = {"success": True, "matches": normalized}
+    # -----------------------------
+    # NEW: Filter out the persistent first match
+    # -----------------------------
+    persistent_match_id = "estudiantes-de-rio-cuarto-san-lorenzo-15270128"
+    filtered_matches = [
+        match for match in normalized
+        if match["match_id"] != persistent_match_id
+    ]
+
+    response = {"success": True, "matches": filtered_matches}
     cache["live_matches"][sport] = {"timestamp": now, "data": response}
 
     return jsonify(response)
-
-
 # -----------------------------
 # 3️⃣ Get matches by type (fixed date & append)
 # -----------------------------
