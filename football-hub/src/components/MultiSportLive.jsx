@@ -76,20 +76,7 @@ function MatchCard({ match, matchType, fetchStream }) {
     .toLowerCase()
     .replace(/\s+/g, "-");
 
-  const getStatusText = () => {
-    if (isFinished) {
-      return new Date(match.timestamp).toLocaleString([], {
-        day: "2-digit",
-        month: "short",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    }
-    if (matchType === "live" && match.runningMinute !== undefined) {
-      return `${match.runningMinute}’ ${match.status_detail || match.status}`;
-    }
-    return match.scheduledTime || match.status_detail || match.status;
-  };
+;
 
   return (
     <div className="match-card">
