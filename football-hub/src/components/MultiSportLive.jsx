@@ -466,22 +466,39 @@ useEffect(() => {
       </h2>
 
       {/* Carousel */}
-      <div className="top-header-carousel">
-        <div className="carousel-container" ref={carouselRef}>
-          {matches.filter(match => match.timestamp > Date.now()).slice(0, 10).map(match => (
-            <div key={match.match_id} data-matchid={match.match_id} className={`carousel-card ${selectedCarouselId === match.match_id ? "active" : ""}`} onClick={() => handleCarouselClick(match.match_id)}>
-              {match.league_logo && <img src={match.league_logo} alt="league" className="league-logo" />}
-              <div className="carousel-league-name">{match.league_name}</div>
-              <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <img src={match.home_team?.badge} alt="home" className="team-logo" />
-                <span style={{ color: "#00ff00", fontWeight: "bold" }}>vs</span>
-                <img src={match.away_team?.badge} alt="away" className="team-logo" />
-              </div>
-              <div className="match-time">{match.scheduledTime || new Date(match.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</div>
-            </div>
-          ))}
+   {/* Carousel */}
+<div className="top-header-carousel">
+  <div className="carousel-wrapper" ref={carouselRef}>
+    {[...matches.filter(match => match.timestamp > Date.now()), 
+      ...matches.filter(match => match.timestamp > Date.now())
+    ].slice(0, 20).map((match, index) => (
+      <div
+        key={`${match.match_id}-${index}`} // ensure unique keys
+        data-matchid={match.match_id}
+        className={`carousel-card ${selectedCarouselId === match.match_id ? "active" : ""}`}
+        onClick={() => handleCarouselClick(match.match_id)}
+      >
+        {/* League Logo */}
+        {match.league_logo && <img src={match.league_logo} alt="league" className="league-logo" />}
+
+        {/* League Name */}
+        <div className="carousel-league-name">{match.league_name}</div>
+
+        {/* Teams */}
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "6px" }}>
+          <img src={match.home_team?.badge} alt="home" className="team-logo" />
+          <span style={{ color: "#00ff00", fontWeight: "bold" }}>vs</span>
+          <img src={match.away_team?.badge} alt="away" className="team-logo" />
+        </div>
+
+        {/* Time */}
+        <div className="match-time">
+          {match.scheduledTime || new Date(match.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
         </div>
       </div>
+    ))}
+  </div>
+</div>
 
       <SportSelector sports={sports} selectedSport={selectedSport} onSelect={setSelectedSport} />
 
