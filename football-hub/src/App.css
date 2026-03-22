@@ -110,7 +110,7 @@ button:hover {
 /* ----------------------------- */
 .match-card {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* keep columnar so score is below teams */
   justify-content: space-between;
   padding: 16px;
   border-radius: 16px;
@@ -132,6 +132,7 @@ button:hover {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap; /* wrap on small screens */
 }
 
 .league-logo-inline {
@@ -147,6 +148,7 @@ button:hover {
   gap: 6px;
   font-weight: bold;
   color: #e0e0e0;
+  flex-wrap: wrap;
 }
 
 .vs-text {
@@ -161,6 +163,7 @@ button:hover {
   color: #32cd32;
   text-align: center;
   transition: color 0.5s, transform 0.3s;
+  margin-top: 6px; /* space under teams */
 }
 
 .match-score.update {
@@ -179,6 +182,8 @@ button:hover {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap; /* wrap on small screens */
+  margin-top: 6px;
 }
 
 .match-actions-line button {
@@ -207,23 +212,35 @@ button:hover {
 /* ----------------------------- */
 /* RESPONSIVE */
 @media (max-width: 768px) {
+  .matches-grid {
+    grid-template-columns: 1fr;
+  }
+  
   .match-card {
+    flex-direction: column; /* keep columnar */
     padding: 12px;
   }
+  
   .league-logo-inline {
     width: 32px;
     height: 32px;
   }
+  
   .teams-inline {
     gap: 4px;
     font-size: 0.9rem;
   }
+  
   .match-score {
     font-size: 1.2rem;
   }
+  
   .match-actions-line {
-    flex-wrap: wrap;
     gap: 6px;
+  }
+  
+  main {
+    padding: 10px;
   }
 }
 
@@ -232,47 +249,49 @@ button:hover {
     width: 28px;
     height: 28px;
   }
+  
   .teams-inline {
     font-size: 0.8rem;
     gap: 4px;
   }
+  
   .match-score {
     font-size: 1rem;
   }
+  
   .match-actions-line button {
     padding: 4px 8px;
     font-size: 0.75rem;
   }
+  
   .live-badge {
     font-size: 0.65rem;
     padding: 2px 4px;
   }
 }
+
 /* ----------------------------- */
 /* CAROUSEL SPECIFIC */
 .top-header-carousel {
   display: flex;
-  flex-direction: row;       /* horizontal scroll */
+  flex-direction: row;
   gap: 16px;
   padding: 10px;
-  overflow-x: hidden;        /* hide native scroll */
+  overflow-x: hidden;
   scroll-behavior: smooth;
   position: relative;
 }
 
-/* Inner wrapper for smooth auto scroll */
 .top-header-carousel .carousel-wrapper {
   display: flex;
   gap: 16px;
   animation: loop-scroll 20s linear infinite;
 }
 
-/* Hide scrollbar */
 .top-header-carousel::-webkit-scrollbar {
   display: none;
 }
 
-/* Carousel Card */
 .carousel-card {
   min-width: 200px;
   max-width: 220px;
@@ -293,9 +312,7 @@ button:hover {
   transform: translateY(-3px);
   box-shadow: 0 0 20px rgba(50,205,50,0.4);
 }
-/* ----------------------------- */
-/* Carousel Images Size Fix */
-/* ----------------------------- */
+
 .top-header-carousel .carousel-card img.league-logo {
   width: 40px;
   height: 40px;
@@ -311,7 +328,6 @@ button:hover {
   border-radius: 50%;
 }
 
-/* Auto-scroll keyframes */
 @keyframes loop-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -391,48 +407,5 @@ button:hover {
 @media (max-width: 360px) {
   .fixed-footer-ad {
     display: none;
-  }
-}
-
-/* ----------------------------- */
-/* RESPONSIVE MATCH GRID */
-@media (max-width: 768px) {
-  .matches-grid {
-    grid-template-columns: 1fr;
-  }
-  .match-card {
-    flex-direction: row;
-    padding: 12px;
-  }
-  .score {
-    font-size: 1.2rem;
-  }
-  main {
-    padding: 10px;
-  }
-  .top-header-carousel {
-    flex-direction: row; /* keep horizontal on mobile */
-    gap: 12px;
-    overflow-x: hidden;
-  }
-}
-
-@media (max-width: 480px) {
-  .match-card {
-    padding: 10px;
-  }
-  .team img {
-    width: 24px;
-    height: 24px;
-  }
-  .score {
-    font-size: 1rem;
-  }
-  .status {
-    font-size: 0.65rem;
-  }
-  .carousel-card {
-    min-width: 140px;
-    max-width: 160px;
   }
 }
