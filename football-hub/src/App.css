@@ -365,9 +365,9 @@ button:hover {
 
 .global-player.mini-player {
   bottom: 20px;
-  right: 20px;
-  width: 300px;
-  height: 168px;
+  right: 0px;
+  width: 350px;
+  height: 200px;
   border: 2px solid #32cd32;
 }
 
