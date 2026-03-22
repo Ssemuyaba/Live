@@ -262,68 +262,94 @@ useEffect(() => {
     }
   }, [visibleCount]);
   // Fetch matches
-  useEffect(() => {
-    if (!selectedSport) return;
+ useEffect(() => {
+  if (!selectedSport) return;
 
-    const fetchMatches = async () => {
-      setLoadingMatches(true);
-      setError("");
+  const fetchMatches = async () => {
+    setLoadingMatches(true);
+    setError("");
 
-      try {
-        const [liveRes, upcomingRes, finishedRes] = await Promise.all([
-          axios.get(`https://swiftball-g958.onrender.com/api/live-matches?sport=${selectedSport}`),
-          axios.get(`https://swiftball-g958.onrender.com/api/matches?sport=${selectedSport}&type=upcoming`),
-          axios.get(`https://swiftball-g958.onrender.com/api/matches?sport=${selectedSport}&type=finished`),
-        ]);
+    try {
+      const [liveRes, upcomingRes, finishedRes] = await Promise.all([
+        axios.get(`https://swiftball-g958.onrender.com/api/live-matches?sport=${selectedSport}`),
+        axios.get(`https://swiftball-g958.onrender.com/api/matches?sport=${selectedSport}&type=upcoming`),
+        axios.get(`https://swiftball-g958.onrender.com/api/matches?sport=${selectedSport}&type=finished`),
+      ]);
 
-        const normalize = (matches) =>
-          matches.map((match) => {
-            const league = match.match_info?.league;
-            return {
-              ...match,
-              league_name: league?.name || "Unknown League",
-              league_logo: league?.logo || "",
-            };
-          });
-
-        const liveMatches = normalize(liveRes.data.matches || []);
-        const upcomingMatches = normalize(upcomingRes.data.matches || []);
-        const finishedMatches = normalize(finishedRes.data.matches || []).sort(
-          (a, b) => b.timestamp - a.timestamp
-        );
-
-        setMatchCounts({
-          live: liveMatches.length,
-          upcoming: upcomingMatches.length,
-          finished: finishedMatches.length,
+      const normalize = (matches) =>
+        matches.map((match) => {
+          const league = match.match_info?.league;
+          return {
+            ...match,
+            league_name: league?.name || "Unknown League",
+            league_logo: league?.logo || "",
+          };
         });
 
-        switch (matchType) {
-          case "live":
-            setMatches(liveMatches);
-            break;
-          case "upcoming":
-            setMatches(upcomingMatches);
-            break;
-          case "finished":
-            setMatches(finishedMatches);
-            break;
-          default:
-            setMatches([]);
-        }
+      const liveMatches = normalize(liveRes.data.matches || []);
+      const upcomingMatches = normalize(upcomingRes.data.matches || []);
+      const finishedMatches = normalize(finishedRes.data.matches || []).sort(
+        (a, b) => b.timestamp - a.timestamp
+      );
 
-      } catch (err) {
-        console.error(err);
-        setError("Failed to fetch matches.");
-      } finally {
-        setLoadingMatches(false);
+      // Top 10 league priority
+      const leaguePriority = [
+        "Premier League",
+        "La Liga",
+        "Bundesliga",
+        "Serie A",
+        "Ligue 1",
+        "MLS",
+        "Eredivisie",
+        "Primeira Liga",
+        "Brasileirão",
+        "Argentine Primera División"
+      ];
+
+      const sortByLeaguePriority = (matches) => {
+        return [...matches].sort((a, b) => {
+          const aIndex = leaguePriority.indexOf(a.league_name);
+          const bIndex = leaguePriority.indexOf(b.league_name);
+
+          if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+          if (aIndex !== -1) return -1;
+          if (bIndex !== -1) return 1;
+          return 0;
+        });
+      };
+
+      setMatchCounts({
+        live: liveMatches.length,
+        upcoming: upcomingMatches.length,
+        finished: finishedMatches.length,
+      });
+
+      switch (matchType) {
+        case "live":
+          setMatches(sortByLeaguePriority(liveMatches));
+          break;
+        case "upcoming":
+          setMatches(sortByLeaguePriority(upcomingMatches));
+          break;
+        case "finished":
+          setMatches(sortByLeaguePriority(finishedMatches));
+          break;
+        default:
+          setMatches([]);
       }
-    };
 
-    fetchMatches();
-    const interval = matchType === "live" ? setInterval(fetchMatches, 15000) : null;
-    return () => clearInterval(interval);
-  }, [selectedSport, matchType]);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to fetch matches.");
+    } finally {
+      setLoadingMatches(false);
+    }
+  };
+
+  fetchMatches();
+  const interval = matchType === "live" ? setInterval(fetchMatches, 15000) : null;
+  return () => clearInterval(interval);
+}, [selectedSport, matchType]);;
 
   // Fetch stream
   const fetchStream = async (match_id) => {
