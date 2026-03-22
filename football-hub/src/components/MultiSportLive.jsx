@@ -93,49 +93,51 @@ function MatchCard({ match, matchType, fetchStream }) {
   };
 
   return (
-    <div className="match-card">
-      {/* LEFT SIDE */}
-      <div className="match-left">
-        <div className="league">
-          {match.league_name || "Unknown League"}
-        </div>
+   <div className="match-card">
 
-        <div className="teams">
-          <div className="team">
-            <img src={match.home_team?.badge} alt={match.home_team?.name} />
-            <span className="team-name">{match.home_team?.name}</span>
-          </div>
-
-          <div className="team">
-            <img src={match.away_team?.badge} alt={match.away_team?.name} />
-            <span className="team-name">{match.away_team?.name}</span>
-          </div>
-        </div>
+  {/* LEFT SIDE: League + Teams */}
+  <div className="match-left">
+    {match.league_logo && (
+      <img src={match.league_logo} alt="league" className="league-logo-inline" />
+    )}
+    <div className="teams-inline">
+      <div className="team">
+        <img src={match.home_team?.badge} alt="" className="team-logo-inline"/>
+        <span className="team-name">{match.home_team?.name}</span>
       </div>
-
-      {/* RIGHT SIDE */}
-      <div className="match-right">
-        <div className={`score ${match.scoreUpdated ? "update" : ""}`}>
-          {match.score || "N/A"}
-        </div>
-
-        <div className="status">
-          {matchType === "live" && <span className="live-badge">LIVE</span>}
-          {getStatusText()}
-        </div>
-
-        {/* ACTION BUTTONS */}
-        <div className="match-actions">
-          {!isFinished && matchType === "live" && (
-            <button onClick={() => fetchStream(match.match_id)}>Watch</button>
-          )}
-          {!isFinished && (
-            <Link to={`/match/${slug}`}>
-              <button>Details</button>
-            </Link>
-          )}
-        </div>
+      <span className="vs-text">vs</span>
+      <div className="team">
+        <img src={match.away_team?.badge} alt="" className="team-logo-inline"/>
+        <span className="team-name">{match.away_team?.name}</span>
       </div>
+    </div>
+  </div>
+
+  {/* RIGHT SIDE: Score / Status / Actions */}
+  <div className="match-right">
+    <div className={`score ${match.scoreUpdated ? "update" : ""}`}>
+      {match.score || "N/A"}
+    </div>
+    <div className="status" style={{
+      color: matchType === "live" ? "#32cd32" :
+             matchType === "upcoming" ? "#ffbf00" : "#888"
+    }}>
+      {matchType === "live" && <span className="live-badge">LIVE</span>}
+      {getStatusText()}
+    </div>
+    <div className="match-actions">
+      {!isFinished && matchType === "live" && (
+        <button onClick={() => fetchStream(match.match_id)}>Watch</button>
+      )}
+      {!isFinished && (
+        <Link to={`/match/${slug}`}>
+          <button>Details</button>
+        </Link>
+      )}
+    </div>
+  </div>
+
+</div>
 
       {/* Mini Live Indicator */}
       {matchType === "live" && <div className="match-refresh-circle"></div>}
