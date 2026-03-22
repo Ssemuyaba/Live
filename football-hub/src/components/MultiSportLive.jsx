@@ -74,12 +74,8 @@ function MatchCard({ match, matchType, fetchStream }) {
   const isFinished = matchType === "finished";
 
   const slug = `${match.home_team?.name}-vs-${match.away_team?.name}`
-  .toLowerCase()
-  .replace(/\s+/g, "-");
-   
-  <Link to={`/match/${slug}`}>
-  <button className="watch-btn">Match Page</button>
-</Link> 
+    .toLowerCase()
+    .replace(/\s+/g, "-");
 
   const getStatusText = () => {
     if (isFinished) {
@@ -97,74 +93,63 @@ function MatchCard({ match, matchType, fetchStream }) {
   };
 
   return (
-    <div
-      className="match-card"
-      style={{ transition: "0.3s", backgroundColor: "#1a1a1a", marginBottom: "15px" }}
-    >
-      <h4 style={{ color: "#00ff00", display: "flex", alignItems: "center", gap: "10px" }}>
-        {match.match_info?.league?.logo && (
-          <img
-            src={match.match_info.league.logo}
-            alt={match.match_info.league.name}
-            style={{ height: "20px", borderRadius: "4px" }}
-          />
-        )}
-        <span>{match.match_info?.league?.name || "Unknown League"}</span>
-      </h4>
+  <div className="match-card">
 
-      <div className="team-row">
-        <img src={match.home_team?.badge} alt="" width={30} />
-        <strong>{match.home_team?.name}</strong>
-        <span>vs</span>
-        <strong>{match.away_team?.name}</strong>
-        <img src={match.away_team?.badge} alt="" width={30} />
+    {/* LEFT SIDE */}
+    <div className="match-left">
+
+      <div className="league">
+        {match.match_info?.league?.name || "Unknown League"}
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <p
-          className={`score ${match.scoreUpdated ? "update" : ""}`}
-          style={{ fontSize: isFinished ? "1.3em" : "1em", fontWeight: isFinished ? "bold" : "normal" }}
-        >
-          {match.score || "N/A"}
-        </p>
+      <div className="teams">
+
+        <div className="team">
+          <img src={match.home_team?.badge} alt="" />
+          <span>{match.home_team?.name}</span>
+        </div>
+
+        <div className="team">
+          <img src={match.away_team?.badge} alt="" />
+          <span>{match.away_team?.name}</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* RIGHT SIDE */}
+    <div className="match-right">
+
+      <div className={`score ${match.scoreUpdated ? "update" : ""}`}>
+        {match.score || "N/A"}
+      </div>
+
+      <div className="status">
+        {matchType === "live" && <span className="live-badge">LIVE</span>}
+        {getStatusText()}
+      </div>
+
+      {/* ACTION BUTTONS */}
+      <div style={{ display: "flex", gap: "6px", marginTop: "6px" }}>
 
         {!isFinished && matchType === "live" && (
-          <button
-            onClick={() => fetchStream(match.match_id)}
-            style={{
-              padding: "4px 10px",
-              borderRadius: "4px",
-              border: "none",
-              cursor: "pointer",
-              backgroundColor: "#00ff00",
-              color: "#000",
-              fontWeight: "bold",
-            }}
-          >
-            Watch Live
+          <button onClick={() => fetchStream(match.match_id)}>
+            Watch
           </button>
         )}
 
-{!isFinished && (
-  <Link to={`/match/${slug}`}>
-    <button
-      className="watch-btn"
-      style={{
-        marginLeft: "10px",
-        padding: "4px 10px",
-        borderRadius: "4px",
-        border: "none",
-        cursor: "pointer",
-        backgroundColor: "#ffcc00",
-        color: "#000",
-        fontWeight: "bold",
-      }}
-    >
-      Match Page
-    </button>
-  </Link>
-)}
+        {!isFinished && (
+          <Link to={`/match/${slug}`}>
+            <button>Details</button>
+          </Link>
+        )}
+
       </div>
+
+    </div>
+
+
 
       {matchType === "live" && <div className="match-refresh-circle"></div>}
 
