@@ -157,6 +157,44 @@ export default function MultiSportLive() {
     finished: 0,
   });
 
+  
+  // -----------------------------
+  // Draggable mini-player logic
+  // -----------------------------
+  useEffect(() => {
+    if (!isMiniPlayer || !globalPlayerRef.current) return;
+
+    const player = globalPlayerRef.current;
+    let offsetX = 0, offsetY = 0, startX = 0, startY = 0;
+
+    const dragMouseDown = (e) => {
+      e.preventDefault();
+      startX = e.clientX;
+      startY = e.clientY;
+      document.addEventListener("mousemove", dragMouseMove);
+      document.addEventListener("mouseup", dragMouseUp);
+    };
+
+    const dragMouseMove = (e) => {
+      e.preventDefault();
+      offsetX = e.clientX - startX;
+      offsetY = e.clientY - startY;
+      const rect = player.getBoundingClientRect();
+      player.style.top = rect.top + offsetY + "px";
+      player.style.left = rect.left + offsetX + "px";
+      startX = e.clientX;
+      startY = e.clientY;
+    };
+
+    const dragMouseUp = () => {
+      document.removeEventListener("mousemove", dragMouseMove);
+      document.removeEventListener("mouseup", dragMouseUp);
+    };
+
+    player.addEventListener("mousedown", dragMouseDown);
+    return () => player.removeEventListener("mousedown", dragMouseDown);
+  }, [isMiniPlayer]);
+  
   // -------------------
   // New: View More logic
   // -------------------
@@ -371,15 +409,18 @@ useEffect(() => {
     </Helmet> 
 
       {loadingStream && <p style={{ color: "#00ff00" }}>Loading stream...</p>}
-      {streamUrl && (
-        <div ref={globalPlayerRef} className={`global-player ${isMiniPlayer ? "mini-player" : ""}`}>
+     {streamUrl && (
+        <div
+          ref={globalPlayerRef}
+          className={`global-player ${isMiniPlayer ? "mini-player" : ""}`}
+          style={{ cursor: isMiniPlayer ? "grab" : "default" }}
+        >
           {!isMiniPlayer && (
             <button
               onClick={() => {
                 setStreamUrl("");
-                setStreams([]);
-                setAdStreams([]);
                 setStreamMatchId(null);
+                setAdStreams([]);
               }}
               style={{
                 position: "absolute",
@@ -398,8 +439,9 @@ useEffect(() => {
               ✕ Close
             </button>
           )}
-
-          {streamUrl.includes(".m3u8") ? <HLSPlayer url={streamUrl} /> : (
+          {streamUrl.includes(".m3u8") ? (
+            <HLSPlayer url={streamUrl} />
+          ) : (
             <iframe
               src={streamUrl}
               frameBorder="0"
@@ -408,7 +450,6 @@ useEffect(() => {
               style={{ width: "100%", height: "100%" }}
             />
           )}
-
           {adStreams.length > 0 && (
             <div className="corner-ad">
               {adStreams.map((ad, i) => (
