@@ -104,16 +104,20 @@ button:hover {
   overflow: hidden;
   gap: 10px;
 }
+
+/* ----------------------------- */
+/* MATCH CARD 3-LINE LAYOUT */
+/* ----------------------------- */
 .match-card {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
   padding: 16px;
   border-radius: 16px;
   background: linear-gradient(145deg, #141414, #0f0f0f);
   border: 1px solid rgba(50,205,50,0.15);
   box-shadow: 0 6px 20px rgba(0,255,0,0.08);
-  gap: 20px;
+  gap: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -122,58 +126,36 @@ button:hover {
   box-shadow: 0 0 25px rgba(50,205,50,0.4);
 }
 
-/* LEFT SIDE: league logo + teams inline */
-.match-left {
+/* ----------------------------- */
+/* LINE 1: LEAGUE LOGO + TEAMS */
+.match-top-line {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .league-logo-inline {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 .teams-inline {
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.team {
-  display: flex;
-  align-items: center;
   gap: 6px;
-}
-
-.team-logo-inline {
-  width: 32px;
-  height: 32px;
-  object-fit: cover;
-  border-radius: 50%;
+  font-weight: bold;
+  color: #e0e0e0;
 }
 
 .vs-text {
   color: #32cd32;
-  font-weight: bold;
 }
 
-/* RIGHT SIDE: score/status/actions */
-.match-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
-}
-
-.match-actions {
-  display: flex;
-  gap: 6px;
-}
-
-.score {
+/* ----------------------------- */
+/* LINE 2: SCORE */
+.match-score {
   font-size: 1.4rem;
   font-weight: bold;
   color: #32cd32;
@@ -181,7 +163,7 @@ button:hover {
   transition: color 0.5s, transform 0.3s;
 }
 
-.score.update {
+.match-score.update {
   animation: score-flash 0.5s ease-in-out;
 }
 
@@ -191,96 +173,81 @@ button:hover {
   100% { color: #32cd32; }
 }
 
-.status {
-  font-size: 0.75rem;
-  color: #aaa;
-  text-align: center;
-  margin-top: 2px;
+/* ----------------------------- */
+/* LINE 3: ACTIONS + LIVE BADGE */
+.match-actions-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* LIVE INDICATORS */
+.match-actions-line button {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.match-actions-line button:hover {
+  background-color: #32cd32;
+  color: #000;
+}
+
 .live-badge {
   background: #32cd32;
   color: #000;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   padding: 2px 6px;
   border-radius: 6px;
   font-weight: bold;
-  margin-top: 4px;
 }
 
-.live-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #32cd32;
-  animation: pulse 1.2s infinite;
-  margin-right: 6px;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* -------------------- Responsive -------------------- */
+/* ----------------------------- */
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .match-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
     padding: 12px;
   }
-
-  .match-left {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .teams-inline {
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .team-logo-inline {
-    width: 28px;
-    height: 28px;
-  }
-
-  .score {
-    font-size: 1.2rem;
-  }
-
-  .status {
-    font-size: 0.7rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .match-card {
-    padding: 10px;
-  }
-
   .league-logo-inline {
     width: 32px;
     height: 32px;
   }
-
-  .team-logo-inline {
-    width: 24px;
-    height: 24px;
+  .teams-inline {
+    gap: 4px;
+    font-size: 0.9rem;
   }
-
-  .score {
-    font-size: 1rem;
+  .match-score {
+    font-size: 1.2rem;
   }
-
-  .status {
-    font-size: 0.65rem;
+  .match-actions-line {
+    flex-wrap: wrap;
+    gap: 6px;
   }
 }
 
+@media (max-width: 480px) {
+  .league-logo-inline {
+    width: 28px;
+    height: 28px;
+  }
+  .teams-inline {
+    font-size: 0.8rem;
+    gap: 4px;
+  }
+  .match-score {
+    font-size: 1rem;
+  }
+  .match-actions-line button {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+  .live-badge {
+    font-size: 0.65rem;
+    padding: 2px 4px;
+  }
+}
 /* ----------------------------- */
 /* CAROUSEL SPECIFIC */
 .top-header-carousel {
